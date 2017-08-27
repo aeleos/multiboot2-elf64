@@ -1,8 +1,20 @@
 use core::marker::PhantomData;
 
+//#[non_exhaustive]
+#[derive(PartialEq)]
+#[repr(u32)]
+pub enum TagType {
+    EndTag = 0,
+    CmdLine = 1,
+    LoaderName = 2,
+    Modules = 3,
+    MemMap = 6,
+    ElfSection = 9,
+}
+
 #[repr(C)]
 pub struct Tag {
-    pub typ: u32,
+    pub typ: TagType,
     pub size: u32,
     // tag specific fields
 }
@@ -17,7 +29,7 @@ impl<'a> Iterator for TagIter<'a> {
 
     fn next(&mut self) -> Option<&'a Tag> {
         match unsafe{&*self.current} {
-            &Tag{typ:0, size:8} => None, // end tag
+            &Tag{typ:TagType::EndTag, size:8} => None, // end tag
             tag => {
                 // go to next tag
                 let mut tag_addr = self.current as usize;
