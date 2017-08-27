@@ -1,5 +1,6 @@
 use core::marker::PhantomData;
 
+#[allow(dead_code)]
 //#[non_exhaustive]
 #[derive(PartialEq)]
 #[repr(u32)]
@@ -8,8 +9,13 @@ pub enum TagType {
     CmdLine = 1,
     LoaderName = 2,
     Modules = 3,
+    MemInfo = 4,
+    BiosDev = 5,
     MemMap = 6,
+    VbeInfo = 7,
+    FbInfo = 8,
     ElfSection = 9,
+    ApmTable = 10,
 }
 
 #[repr(C)]
