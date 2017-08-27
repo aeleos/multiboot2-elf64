@@ -10,6 +10,7 @@ pub use elf_sections::{ELF_SECTION_WRITABLE, ELF_SECTION_ALLOCATED, ELF_SECTION_
 pub use memory_map::{MemoryMapTag, MemoryArea, MemoryAreaIter};
 pub use module::{ModuleTag, ModuleIter};
 pub use command_line::CommandLineTag;
+pub use vbe::VbeInfoTag;
 
 #[macro_use]
 extern crate bitflags;
@@ -20,6 +21,7 @@ mod elf_sections;
 mod memory_map;
 mod module;
 mod command_line;
+mod vbe;
 
 pub unsafe fn load(address: usize) -> &'static BootInformation {
     if !cfg!(test) {
@@ -69,6 +71,10 @@ impl BootInformation {
 
     pub fn command_line_tag(&self) -> Option<&'static CommandLineTag> {
         self.get_tag(TagType::CmdLine).map(|tag| unsafe { &*(tag as *const Tag as *const CommandLineTag) })
+    }
+
+    pub fn vbe_info_tag(&self) -> Option<&'static VbeInfoTag> {
+        self.get_tag(TagType::VbeInfo).map(|tag| unsafe { &*(tag as *const Tag as *const VbeInfoTag) })
     }
 
     fn has_valid_end_tag(&self) -> bool {
