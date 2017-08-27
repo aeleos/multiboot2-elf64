@@ -163,6 +163,7 @@ mod tests {
         assert!(bi.module_tags().next().is_none());
         assert!(bi.boot_loader_name_tag().is_none());
         assert!(bi.command_line_tag().is_none());
+        assert!(bi.vbe_info_tag().is_none());
     }
 
 
@@ -185,6 +186,7 @@ mod tests {
         assert!(bi.module_tags().next().is_none());
         assert!(bi.boot_loader_name_tag().is_none());
         assert!(bi.command_line_tag().is_none());
+        assert!(bi.vbe_info_tag().is_none());
     }
 
 
@@ -207,6 +209,7 @@ mod tests {
         assert!(bi.module_tags().next().is_none());
         assert!(bi.boot_loader_name_tag().is_none());
         assert!(bi.command_line_tag().is_none());
+        assert!(bi.vbe_info_tag().is_none());
     }
 
     #[test]
@@ -231,6 +234,7 @@ mod tests {
         assert!(bi.module_tags().next().is_none());
         assert_eq!("name", bi.boot_loader_name_tag().unwrap().name());
         assert!(bi.command_line_tag().is_none());
+        assert!(bi.vbe_info_tag().is_none());
     }
 
     #[cfg(not(feature = "elf32"))]
@@ -573,5 +577,6 @@ mod tests {
         assert!(bi.module_tags().next().is_none());
         assert_eq!("GRUB 2.02~beta3-5", bi.boot_loader_name_tag().unwrap().name());
         assert_eq!("", bi.command_line_tag().unwrap().command_line());
+        assert!(bi.vbe_info_tag().is_none());
     }
 }
