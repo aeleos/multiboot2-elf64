@@ -1,4 +1,4 @@
-use header::{Tag, TagIter};
+use header::{Tag, TagIter, TagType};
 
 #[repr(packed)]
 #[derive(Debug)]
@@ -44,7 +44,7 @@ impl<'a> Iterator for ModuleIter<'a> {
     type Item = &'a ModuleTag;
 
     fn next(&mut self) -> Option<&'a ModuleTag> {
-        self.iter.find(|x| x.typ == 3)
+        self.iter.find(|x| x.typ == TagType::Modules)
             .map(|tag| unsafe{&*(tag as *const Tag as *const ModuleTag)})
     }
 }
