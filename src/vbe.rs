@@ -1,3 +1,5 @@
+use core::fmt;
+
 /// The VBE info tag, as specified by the Multiboot spec v1.6 and later.
 #[repr(C, packed)]
 pub struct VbeInfoTag {
@@ -14,7 +16,7 @@ pub struct VbeInfoTag {
     mode_info: VbeModeInfo,
 }
 
-impl VbeTag {
+impl VbeInfoTag {
     pub fn mode(&self) -> &'static VbeModeInfo {
         unsafe { &*(&self.mode_info as *const VbeModeInfo) }
     }
@@ -41,8 +43,8 @@ impl VbeMode {
     }
 }
 
-impl core::fmt::Debug for VbeMode {
-    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+impl fmt::Debug for VbeMode {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:#X}", self.0)
     }
 }
@@ -63,8 +65,8 @@ pub struct VbeControlInfo {
     reserved: [u8; 222],
     oem_data: [u8; 256],
 }
-impl core::fmt::Debug for VbeControlInfo {
-    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+impl fmt::Debug for VbeControlInfo {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "OMITTING VbeControlInfo") // TODO: better info
     }
 }
@@ -136,8 +138,8 @@ impl VbeModeInfo {
     }
 }
 
-impl core::fmt::Debug for VbeModeInfo {
-    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+impl fmt::Debug for VbeModeInfo {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "mode: {}x{}x{}", self.width(), self.height(), self.bpp()) // TODO: better info
     }
 }

@@ -1,3 +1,5 @@
+use core::fmt;
+
 #[derive(Debug)]
 #[repr(C)]
 pub struct MemoryMapTag {
@@ -30,19 +32,13 @@ pub enum MemoryAreaType {
     HibernatePersist = 4,
 }
 
-impl core::fmt::Debug for MemoryAreaType {
-    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+impl fmt::Debug for MemoryAreaType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             MemoryAreaType::Usable => write!(f, "Usable"),
             MemoryAreaType::ACPI => write!(f, "ACPI"),
             MemoryAreaType::HibernatePersist => write!(f, "HibPers"),
         }
-    }
-}
-
-impl core::fmt::Display for MemoryAreaType {
-    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
-        write!(f, "{:?}", self)
     }
 }
 
