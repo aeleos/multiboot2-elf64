@@ -13,6 +13,7 @@ pub use memory_map::{MemoryArea, MemoryAreaIter, MemoryAreaType, MemoryMapTag};
 pub use module::{ModuleIter, ModuleTag};
 pub use command_line::CommandLineTag;
 pub use vbe::VbeInfoTag;
+pub use framebuffer::FramebufferInfoTag;
 
 #[macro_use]
 extern crate bitflags;
@@ -24,6 +25,7 @@ mod memory_map;
 mod module;
 mod command_line;
 mod vbe;
+mod framebuffer;
 
 pub unsafe fn load(address: usize) -> &'static BootInformation {
     if !cfg!(test) {
@@ -86,6 +88,12 @@ impl BootInformation {
     pub fn vbe_info_tag(&self) -> Option<&'static VbeInfoTag> {
         self.get_tag(TagType::VbeInfo)
             .map(|tag| unsafe { &*(tag as *const Tag as *const VbeInfoTag) })
+    }
+
+    pub fn fb_info_tag(&self) -> Option<&'static FramebufferInfoTag> {
+        self.get_tag(TagType::FbInfo).map(|tag| unsafe {
+            &*(tag as *const Tag as *const FramebufferInfoTag)
+        })
     }
 
     fn has_valid_end_tag(&self) -> bool {
