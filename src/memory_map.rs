@@ -23,11 +23,13 @@ impl MemoryMapTag {
 }
 
 #[repr(u32)]
-#[derive(Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq)]
 // Multiboot Specification version 1.6 -- Page 12
 // http://nongnu.askapache.com/grub/phcoder/multiboot.pdf
 pub enum MemoryAreaType {
+    Reserved = 0,
     Usable = 1,
+    Reserved2 = 2,
     ACPI = 3,
     HibernatePersist = 4,
 }
@@ -35,7 +37,9 @@ pub enum MemoryAreaType {
 impl fmt::Debug for MemoryAreaType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
+            MemoryAreaType::Reserved => write!(f, "Reserved"),
             MemoryAreaType::Usable => write!(f, "Usable"),
+            MemoryAreaType::Reserved2 => write!(f, "Reserved2"),
             MemoryAreaType::ACPI => write!(f, "ACPI"),
             MemoryAreaType::HibernatePersist => write!(f, "HibPers"),
         }
@@ -66,6 +70,10 @@ impl MemoryArea {
 
     pub fn area_type(&self) -> MemoryAreaType {
         self.typ.clone()
+    }
+
+    pub fn area(&self) -> u32 {
+        self.typ.clone() as u32
     }
 }
 
